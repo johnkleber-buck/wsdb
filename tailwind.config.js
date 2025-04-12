@@ -1,71 +1,54 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  darkMode: ["class"],
+module.exports = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  prefix: "",
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
     extend: {
-      colors: {
-        border: "hsl(var(--border) / <alpha-value>)",
-        input: "hsl(var(--input) / <alpha-value>)",
-        ring: "hsl(var(--ring) / <alpha-value>)",
-        background: "hsl(var(--background) / <alpha-value>)",
-        foreground: "hsl(var(--foreground) / <alpha-value>)",
-        primary: {
-          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
-          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
-          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
-          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted) / <alpha-value>)",
-          foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
-          foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover) / <alpha-value>)",
-          foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card) / <alpha-value>)",
-          foreground: "hsl(var(--card-foreground) / <alpha-value>)",
-        },
-        success: {
-          DEFAULT: "hsl(var(--success) / <alpha-value>)",
-          foreground: "hsl(var(--success-foreground) / <alpha-value>)",
-        },
-        warning: {
-          DEFAULT: "hsl(var(--warning) / <alpha-value>)",
-          foreground: "hsl(var(--warning-foreground) / <alpha-value>)",
-        },
+      backgroundColor: {
+        primary: '#3b82f6',
+        secondary: '#f1f5f9',
+        accent: '#0ea5e9',
+        destructive: '#ef4444',
+        success: '#22c55e',
+        warning: '#f59e0b',
+        card: '#ffffff',
+        muted: '#f8fafc',
+        popover: '#ffffff',
+      },
+      textColor: {
+        primary: '#3b82f6',
+        secondary: '#64748b',
+        accent: '#0ea5e9',
+        destructive: '#ef4444',
+        success: '#22c55e',
+        warning: '#f59e0b',
+        'primary-foreground': '#ffffff',
+        'secondary-foreground': '#1e293b',
+        'accent-foreground': '#ffffff',
+        'destructive-foreground': '#ffffff',
+        'success-foreground': '#ffffff',
+        'warning-foreground': '#ffffff',
+        'card-foreground': '#1e293b',
+        'muted-foreground': '#64748b',
+        'popover-foreground': '#1e293b',
       },
       borderColor: {
-        DEFAULT: "hsl(var(--border) / <alpha-value>)",
+        DEFAULT: '#e2e8f0',
+        primary: '#3b82f6',
+        secondary: '#e2e8f0',
+        accent: '#0ea5e9',
+        destructive: '#ef4444',
+        success: '#22c55e',
+        warning: '#f59e0b',
+        muted: '#f1f5f9',
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: '0.5rem',
+        md: '0.375rem',
+        sm: '0.25rem',
       },
       keyframes: {
         "accordion-down": {

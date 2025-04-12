@@ -45,7 +45,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <SWRProvider>
-      <div className="flex h-screen bg-background">
+      <div className="flex h-screen bg-[#f8fafc]">
         {/* Sidebar for desktop */}
         <div 
           className={cn(
