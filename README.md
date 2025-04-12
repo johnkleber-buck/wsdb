@@ -6,7 +6,8 @@ A modern web dashboard for workstation assignment and management at a global cre
 
 - **Frontend**: Next.js App Router, TypeScript, Tailwind CSS, shadcn/ui
 - **State Management**: Zustand, SWR for data fetching and caching
-- **Mocking**: Mock API handlers for development
+- **API Integration**: Axios with mock API handlers for development
+- **Charts**: Recharts for data visualization
 
 ## Features
 
@@ -14,6 +15,7 @@ A modern web dashboard for workstation assignment and management at a global cre
 - **Real-time Status Indicators** - Monitor workstation availability and Parsec connections
 - **Policy Compliance Checking** - Enforce security and location policies
 - **Assignment Workflow** - Assign and release workstations with proper validation
+- **Slack Integration** - Process workstation requests from Slack
 - **Reporting** - Utilization, location distribution, and assignment reports with CSV export
 
 ## Data Integration
@@ -28,16 +30,23 @@ The application integrates with the following systems via the BUCK API:
 
 ## Getting Started
 
-First, run the development server:
+First, clone the repository and install dependencies:
+
+```bash
+# Clone the repository
+git clone https://github.com/johnkleber-buck/wsdb.git
+
+# Navigate to the project directory
+cd wsdb
+
+# Install dependencies
+npm install
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the dashboard.
@@ -61,14 +70,34 @@ app/
 └── reports/          # Reports and analytics page
 ```
 
+## Development Roadmap
+
+The following features are planned for future development:
+
+- [x] Dashboard UI with split-screen layout
+- [x] User and workstation selection workflow
+- [x] Policy compliance checking system
+- [x] Slack integration for workstation requests
+- [x] Basic reporting with charts and CSV export
+- [ ] Hardware specs detailed view with comparison
+- [ ] Software inventory management
+- [ ] Audit log for assignments and actions
+- [ ] User authentication and role-based permissions
+- [ ] Dark mode support
+- [ ] Advanced filtering and global search
+- [ ] Mobile app for Help Desk technicians
+
 ## Development
 
 During development, the application uses mock data and API handlers to simulate the real BUCK API. This allows for rapid development and testing without connecting to the actual backend services.
 
 ## Deployment
 
-The application is designed to be deployed on Vercel and connect to the production BUCK API for live data.
+The application is designed to be deployed on Vercel and connect to the production BUCK API for live data. The environment variables needed for production are:
+
+- `NEXT_PUBLIC_BUCK_API_URL`: URL of the BUCK API service
+- `NEXT_PUBLIC_BUCK_API_KEY`: API key for authentication
 
 ## License
 
-This project is proprietary and confidential.# wsdb
+This project is proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
