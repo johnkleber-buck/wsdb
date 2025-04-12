@@ -35,8 +35,8 @@ export async function releaseWorkstation(machineName: string) {
 }
 
 export async function checkPolicyCompliance(machineName: string, username: string) {
-  return fetchData<{ compliant: boolean; violations?: string[] }>(
+  return postData<{ compliant: boolean; violations?: string[] }>(
     `${ENDPOINT}/${machineName}/check-policy-compliance`,
-    { username }
+    { username, machineName }
   );
 }
