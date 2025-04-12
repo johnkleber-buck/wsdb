@@ -28,10 +28,22 @@ export function AssignmentPanel() {
     try {
       const response = await checkPolicyCompliance(selectedWorkstation.machineName, selectedUser.username);
       
+      // Format violation messages to be more user-friendly
+      let formattedViolations = response.data.violations || [];
+      
+      // If there are violations, make them more readable
+      if (formattedViolations.length > 0) {
+        formattedViolations = formattedViolations.map(violation => {
+          // Make first letter uppercase and improve readability
+          return violation.charAt(0).toUpperCase() + violation.slice(1)
+            .replace(/([a-z])([A-Z])/g, '$1 $2'); // Add spaces between camelCase words
+        });
+      }
+      
       setComplianceStatus({
         checked: true,
         compliant: response.data.compliant,
-        violations: response.data.violations,
+        violations: formattedViolations,
       });
     } catch (error) {
       console.error('Error checking policy compliance:', error);

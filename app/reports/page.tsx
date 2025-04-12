@@ -7,6 +7,114 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/ca
 import { StatusBadge } from '@/app/components/ui/status-badge';
 import { Button } from '@/app/components/ui/button';
 import DashboardLayout from '@/app/components/dashboard-layout';
+import { 
+  BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer,
+  PieChart, Pie, Cell, LineChart, Line, CartesianGrid
+} from 'recharts';
+
+// Chart components
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'];
+
+// Utilization chart component
+const UtilizationChart = ({ data, total }: { data: Record<string, number>, total: number }) => {
+  const chartData = Object.entries(data).map(([name, value]) => ({
+    name,
+    value,
+    percentage: ((value / total) * 100).toFixed(1)
+  }));
+
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <PieChart>
+        <Pie
+          data={chartData}
+          cx="50%"
+          cy="50%"
+          labelLine={true}
+          outerRadius={80}
+          fill="#8884d8"
+          dataKey="value"
+          nameKey="name"
+          label={({ name, percentage }) => `${name}: ${percentage}%`}
+        >
+          {chartData.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+        <Tooltip formatter={(value) => [`${value} workstations`, 'Count']} />
+        <Legend />
+      </PieChart>
+    </ResponsiveContainer>
+  );
+};
+
+// Location chart component
+const LocationChart = ({ 
+  data 
+}: { 
+  data: Record<string, { total: number; available: number; assigned: number; maintenance: number }> 
+}) => {
+  const chartData = Object.entries(data).map(([location, stats]) => ({
+    location,
+    Available: stats.available,
+    Assigned: stats.assigned,
+    Maintenance: stats.maintenance
+  }));
+
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={chartData} layout="vertical">
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis type="number" />
+        <YAxis dataKey="location" type="category" width={100} />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="Available" stackId="a" fill="#00C49F" />
+        <Bar dataKey="Assigned" stackId="a" fill="#0088FE" />
+        <Bar dataKey="Maintenance" stackId="a" fill="#FFBB28" />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+};
+
+// Assignment chart by department
+const AssignmentChart = ({ 
+  workstations, 
+  users 
+}: { 
+  workstations: any[]; 
+  users: any[] 
+}) => {
+  // Group assignments by department
+  const departmentCounts: Record<string, number> = {};
+  
+  workstations.forEach(ws => {
+    if (ws.assignedTo) {
+      const user = users.find(u => u.username === ws.assignedTo);
+      if (user) {
+        const dept = user.department;
+        departmentCounts[dept] = (departmentCounts[dept] || 0) + 1;
+      }
+    }
+  });
+  
+  const chartData = Object.entries(departmentCounts)
+    .map(([department, count]) => ({ department, count }))
+    .sort((a, b) => b.count - a.count);
+
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={chartData}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="department" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="count" name="Workstations" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+};
 
 export default function ReportsPage() {
   const [reportType, setReportType] = useState<'utilization' | 'location' | 'assignment'>('utilization');
@@ -123,8 +231,10 @@ export default function ReportsPage() {
           })}
         </div>
         
-        <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center mb-6">
-          [Utilization Chart Placeholder]
+        <div className="h-64 border rounded-lg p-4 mb-6">
+          {workstations && (
+            <UtilizationChart data={getStatusCounts()} total={workstations.length} />
+          )}
         </div>
       </div>
     );
@@ -183,8 +293,10 @@ export default function ReportsPage() {
           </table>
         </div>
         
-        <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center my-6">
-          [Location Distribution Chart Placeholder]
+        <div className="h-64 border rounded-lg p-4 my-6">
+          {workstations && (
+            <LocationChart data={locationData} />
+          )}
         </div>
       </div>
     );
@@ -241,8 +353,10 @@ export default function ReportsPage() {
           </div>
         )}
         
-        <div className="h-64 bg-gray-100 rounded-lg flex items-center justify-center my-6">
-          [Assignment Trend Chart Placeholder]
+        <div className="h-64 border rounded-lg p-4 my-6">
+          {workstations && assignedWorkstations.length > 0 && (
+            <AssignmentChart workstations={assignedWorkstations} users={users || []} />
+          )}
         </div>
       </div>
     );
